@@ -1,31 +1,49 @@
-import 'package:demo/colors.dart';
+//import 'package:demo/colors.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:demo/welcomeScreen.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  int start = 500;
+  @override
+  void initState() {
+    super.initState();
+    _navigatetoWelcome();
+  }
+
+  _navigatetoWelcome() async {
+    final BuildContext context = this.context; // Capture the context
+    await Future.delayed(const Duration(milliseconds: 3000), () {});
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => const WelcomeScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            color: whiteBackground, // White background color for the bottom part
-          ),
-          Align(
-            alignment: Alignment.topCenter,
+          FadeOut(
+            duration: const Duration(milliseconds: 3000),
             child: ClipPath(
               clipper: CustomClipPath(),
               child: Container(
-                color: const Color(0xFF1A6CA8),
-                // Blue background color for the top curved part
+                color: const Color(
+                    0xFF1A6CA8), // Blue background color for the top curved part
                 height: 400,
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
+          SlideInUp(
+            delay: Duration(milliseconds: start),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
